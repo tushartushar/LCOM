@@ -38,6 +38,7 @@ public class LCOM {
         project.parse();
         project.resolve();
         project.computeMetrics();
+        project.exportAnalysisResult();
         project.printSummary();
         Logger.log("Done.");
     }

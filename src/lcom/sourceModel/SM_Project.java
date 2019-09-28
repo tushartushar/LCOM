@@ -166,11 +166,18 @@ public class SM_Project extends SM_SourceItem {
 
     public void computeMetrics() {
         Logger.log("Computing metrics...");
+        CSVUtils.initializeCSVDirectory(name, inputArgs.getOutputFolder());
         for (SM_Package pkg : packageList) {
             pkg.extractTypeMetrics();
         }
     }
 
     public void printSummary() {
+    }
+
+    public void exportAnalysisResult() {
+        for (SM_Package pkg : packageList) {
+            pkg.exportResults();
+        }
     }
 }

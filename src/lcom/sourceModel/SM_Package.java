@@ -1,10 +1,12 @@
 package lcom.sourceModel;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import lcom.utils.CSVUtils;
 import org.eclipse.jdt.core.dom.CompilationUnit;
 
 import lcom.InputArgs;
@@ -88,5 +90,24 @@ public class SM_Package extends SM_SourceItem {
 
     public TypeMetrics getMetricsFromType(SM_Type type) {
         return metricsMapping.get(type);
+    }
+
+    public void exportResults() {
+        for (SM_Type type : typeList) {
+            exportMetricsToCSV(metricsMapping.get(type), type.getName());
+        }
+    }
+
+    private void exportMetricsToCSV(TypeMetrics typeMetrics, String typeName) {
+        String path = inputArgs.getOutputFolder()
+                + File.separator + "TypeMetrics.csv";
+        CSVUtils.addToCSVFile(path, getMetricsAsARow(typeMetrics, typeName));
+    }
+    private String getMetricsAsARow(TypeMetrics metrics, String typeName) {
+        return getParentProject().getName()
+                + "," + getName()
+                + "," + typeName
+                + "," + metrics.getLcom()
+                + "\n";
     }
 }
