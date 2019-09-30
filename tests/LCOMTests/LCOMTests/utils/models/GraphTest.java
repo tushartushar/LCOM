@@ -1,4 +1,4 @@
-package DesigniteTests.utils.models;
+package LCOMTests.utils.models;
 
 import static org.junit.Assert.assertEquals;
 

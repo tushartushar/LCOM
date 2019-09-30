@@ -10,7 +10,12 @@ public class CSVUtils {
 	static final String TYPE_METRICS_HEADER = "Project Name"
 			+ ",Package Name"
 			+ ",Type Name"
-			+ ",LCOM"
+			+ ",LCOM1"
+			+ ",LCOM2"
+			+ ",LCOM3"
+			+ ",LCOM4"
+			+ ",LCOM5"
+			+ ",YALCOM"
 			+ "\n";
 	public static void initializeCSVDirectory(String projectName, String dirPath) {
 		File dir = new File(dirPath);

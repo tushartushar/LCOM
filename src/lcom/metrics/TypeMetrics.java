@@ -1,99 +1,48 @@
 package lcom.metrics;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import lcom.sourceModel.SM_Field;
-import lcom.sourceModel.SM_Method;
+import lcom.metrics.algorithms.*;
 import lcom.sourceModel.SM_Type;
-import lcom.utils.models.Edge;
-import lcom.utils.models.Graph;
-import lcom.utils.models.Vertex;
 
 public class TypeMetrics {
-    private double lcom;
+    private double yalcom;
     private SM_Type type;
-    private Graph graph;
+    private double lcom1, lcom2, lcom3, lcom4, lcom5;
 
     public TypeMetrics(SM_Type type) {
         this.type = type;
     }
 
     public void extractMetrics() {
-        extractLCOM();
+        ILCOM lcomAlgorithm = new YALCOM();
+        yalcom = lcomAlgorithm.compute(type);
+        lcomAlgorithm = new LCOM1();
+        lcom1 = lcomAlgorithm.compute(type);
+        lcomAlgorithm = new LCOM2();
+        lcom2 = lcomAlgorithm.compute(type);
+        lcomAlgorithm = new LCOM3();
+        lcom3 = lcomAlgorithm.compute(type);
+        lcomAlgorithm = new LCOM4();
+        lcom4 = lcomAlgorithm.compute(type);
+        lcomAlgorithm = new LCOM5();
+        lcom5 = lcomAlgorithm.compute(type);
     }
 
-    private void extractLCOM() {
-        if (isNotLcomComputable()) {
-            lcom = -1.0;
-            return;
-        }
-        initializeGraph();
-        lcom = computeLCOM();
+    public double getYalcom() {
+        return yalcom;
     }
-
-    private boolean isNotLcomComputable() {
-        return type.isInterface()
-                || type.getFieldList().size() == 0
-                || type.getMethodList().size() == 0;
+    public double getLcom1() {
+        return lcom1;
     }
-
-    private void initializeGraph() {
-        initializeVertices();
-        initializeEdges();
+    public double getLcom2() {
+        return lcom2;
     }
-
-    private void initializeVertices() {
-        graph = new Graph();
-        for (SM_Method method : type.getMethodList()) {
-            graph.addVertex(method);
-        }
-        for (SM_Field field : type.getFieldList()) {
-            graph.addVertex(field);
-        }
+    public double getLcom3() {
+        return lcom3;
     }
-
-    private void initializeEdges() {
-        for (SM_Method method : type.getMethodList()) {
-            addAdjacentFields(method);
-            addAdjacentMethods(method);
-        }
+    public double getLcom4() {
+        return lcom4;
     }
-
-    private void addAdjacentFields(SM_Method method) {
-        for (SM_Field fieldVertex : method.getDirectFieldAccesses()) {
-            graph.addEdge(new Edge(method, fieldVertex));
-        }
-    }
-
-    private void addAdjacentMethods(SM_Method method) {
-        for (SM_Method methodVertex : type.getMethodList()) {
-            if (!method.equals(methodVertex) && method.getCalledMethods().contains(methodVertex)) {
-                graph.addEdge(new Edge(method, methodVertex));
-            }
-        }
-    }
-
-    private double computeLCOM() {
-        graph.computeConnectedComponents();
-        List<List<Vertex>> nonSingleElementFieldComponents = getNonSingleElementFieldComponents();
-        if (nonSingleElementFieldComponents.size() > 1) {
-            return ((double) getNonSingleElementFieldComponents().size()) / type.getMethodList().size();
-        }
-        return 0.0;
-    }
-
-    private List<List<Vertex>> getNonSingleElementFieldComponents() {
-        List<List<Vertex>> cleanComponents = new ArrayList<>();
-        for (List<Vertex> component : graph.getConnectedComponnents()) {
-            if (component.size() != 1 || !(component.get(0) instanceof SM_Field)) {
-                cleanComponents.add(component);
-            }
-        }
-        return cleanComponents;
-    }
-
-    public double getLcom() {
-        return lcom;
+    public double getLcom5() {
+        return lcom5;
     }
 }

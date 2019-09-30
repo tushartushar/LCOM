@@ -223,6 +223,7 @@ public class SM_Type extends SM_SourceItem {
 
     @Override
     public void resolve() {
+        setSuperTypes();
         for (SM_Field field : fieldList)
             field.resolve();
         setStaticAccessList();
@@ -230,7 +231,6 @@ public class SM_Type extends SM_SourceItem {
             method.resolve();
         setReferencedTypes();
         setTypesThatReferenceThis();
-        setSuperTypes();
     }
 
     private void setStaticAccessList() {

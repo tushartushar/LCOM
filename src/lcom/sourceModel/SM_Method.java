@@ -26,6 +26,7 @@ public class SM_Method extends SM_SourceItem implements Vertex {
     private List<SimpleName> namesInMethod = new ArrayList<>();
     private List<FieldAccess> thisAccessesInMethod = new ArrayList<>();
     private List<SM_Field> directFieldAccesses = new ArrayList<>();
+    private List<SM_Field> superClassFieldAccesses = new ArrayList<>();
     private List<Type> typesInInstanceOf = new ArrayList<>();
     private List<SM_Type> smTypesInInstanceOf = new ArrayList<>();
     private List<SM_Type> smTypesInNewStatements = new ArrayList<>();
@@ -218,9 +219,14 @@ public class SM_Method extends SM_SourceItem implements Vertex {
         for (FieldAccess thisAccess : thisAccessesInMethod) {
             SM_Field sameField = getFieldWithSameName(thisAccess.getName().toString());
             if (sameField != null) {
-                //addToFieldAccessWithoutMemberAccess(sameField, thisAccess);
                 if (!directFieldAccesses.contains(sameField)) {
                     directFieldAccesses.add(sameField);
+                }
+            }
+            SM_Field field = getFieldFromSuperClass(thisAccess.getName().toString());
+            if (field != null) {
+                if (!superClassFieldAccesses.contains(field)) {
+                    superClassFieldAccesses.add(field);
                 }
             }
         }
@@ -228,13 +234,30 @@ public class SM_Method extends SM_SourceItem implements Vertex {
             if (!existsAsNameInLocalVars(name.toString())) {
                 SM_Field sameField = getFieldWithSameName(name.toString());
                 if (sameField != null) {
-                    //addToFieldAccessWithoutMemberAccess(sameField, name);
                     if (!directFieldAccesses.contains(sameField)) {
                         directFieldAccesses.add(sameField);
                     }
                 }
+                SM_Field field = getFieldFromSuperClass(name.toString());
+                if (field != null) {
+                    if (!superClassFieldAccesses.contains(field)) {
+                        superClassFieldAccesses.add(field);
+                    }
+                }
             }
         }
+    }
+
+    private SM_Field getFieldFromSuperClass(String fieldName) {
+        if (parentType.getSuperTypes().isEmpty())
+            return null;
+        for (SM_Type type : parentType.getSuperTypes())
+            for (SM_Field field : type.getFieldList()) {
+                if (fieldName.equals(field.getName())) {
+                    return field;
+                }
+            }
+        return null;
     }
 
     private boolean existsAsNameInLocalVars(String name) {
@@ -278,6 +301,14 @@ public class SM_Method extends SM_SourceItem implements Vertex {
         return directFieldAccesses;
     }
 
+    public List<SM_Field> getNonStaticFieldAccesses() {
+        List<SM_Field> fields = new ArrayList<>();
+        for (SM_Field field : directFieldAccesses)
+            if (!field.isStatic())
+                fields.add(field);
+        return fields;
+    }
+
     private void setMethodOverridden() {
         MarkerAnnotationVisitor markerAnnotationVisitor = new MarkerAnnotationVisitor();
         methodDeclaration.accept(markerAnnotationVisitor);
@@ -286,5 +317,9 @@ public class SM_Method extends SM_SourceItem implements Vertex {
 
     public boolean isOverridden() {
         return isOverridden;
+    }
+
+    public List<SM_Field> getFieldAccessesFromSuperClass() {
+        return superClassFieldAccesses;
     }
 }

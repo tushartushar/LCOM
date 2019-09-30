@@ -107,7 +107,12 @@ public class SM_Package extends SM_SourceItem {
         return getParentProject().getName()
                 + "," + getName()
                 + "," + typeName
-                + "," + metrics.getLcom()
+                + "," + metrics.getLcom1()
+                + "," + metrics.getLcom2()
+                + "," + metrics.getLcom3()
+                + "," + metrics.getLcom4()
+                + "," + metrics.getLcom5()
+                + "," + metrics.getYalcom()
                 + "\n";
     }
 }

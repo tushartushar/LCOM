@@ -1,4 +1,4 @@
-package DesigniteTests;
+package LCOMTests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -14,7 +14,7 @@ import lcom.sourceModel.SM_Package;
 import lcom.sourceModel.SM_Project;
 import lcom.sourceModel.SM_Type;
 
-public class SM_Method_CalledMethodsTests extends DesigniteTests {
+public class SM_Method_CalledMethodsTests extends LCOMTests {
 
 	private SM_Project project;
 

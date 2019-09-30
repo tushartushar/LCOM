@@ -1,4 +1,4 @@
-package DesigniteTests.metrics;
+package LCOMTests.metrics;
 
 import static org.junit.Assert.assertEquals;
 
@@ -12,9 +12,9 @@ import lcom.sourceModel.SM_Package;
 import lcom.sourceModel.SM_Project;
 import lcom.sourceModel.SM_Type;
 import lcom.metrics.TypeMetrics;
-import DesigniteTests.DesigniteTests;
+import LCOMTests.LCOMTests;
 
-public class TypeMetricsTest extends DesigniteTests {
+public class TypeMetricsTest extends LCOMTests {
 	
 	private SM_Project project;
 	private TypeMetrics typeMetrics;
@@ -45,7 +45,7 @@ public class TypeMetricsTest extends DesigniteTests {
 		double delta = 0.01;
 		
 		double expected = -1.0;
-		double actual = pkg.getMetricsFromType(someInterface).getLcom();
+		double actual = pkg.getMetricsFromType(someInterface).getYalcom();
 		
 		assertEquals(expected, actual, delta);
 	}
@@ -57,7 +57,7 @@ public class TypeMetricsTest extends DesigniteTests {
 		double delta = 0.01;
 		
 		double expected = -1.0;
-		double actual = pkg.getMetricsFromType(foreignClass4).getLcom();
+		double actual = pkg.getMetricsFromType(foreignClass4).getYalcom();
 		
 		assertEquals(expected, actual, delta);
 	}
@@ -70,7 +70,7 @@ public class TypeMetricsTest extends DesigniteTests {
 		double delta = 0.01;
 		
 		double expected = -1.0;
-		double actual = pkg.getMetricsFromType(foreignClass1).getLcom();
+		double actual = pkg.getMetricsFromType(foreignClass1).getYalcom();
 		
 		assertEquals(expected, actual, delta);
 	}
@@ -80,7 +80,7 @@ public class TypeMetricsTest extends DesigniteTests {
 		double delta = 0.01;
 		
 		double expected = 1.0;
-		double actual = typeMetrics.getLcom();
+		double actual = typeMetrics.getYalcom();
 		
 		assertEquals(expected, actual, delta);
 	}
@@ -92,7 +92,7 @@ public class TypeMetricsTest extends DesigniteTests {
 		double delta = 0.01;
 		
 		double expected = 0.0;
-		double actual = pkg.getMetricsFromType(child2).getLcom();
+		double actual = pkg.getMetricsFromType(child2).getYalcom();
 		
 		assertEquals(expected, actual, delta);
 	}
