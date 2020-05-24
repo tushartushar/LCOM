@@ -28,7 +28,6 @@ public class YALCOM implements ILCOM{
     }
     private boolean isNotLcomComputable() {
         return type.isInterface()
-                || type.getFieldList().size() == 0
                 || type.getMethodList().size() == 0;
     }
 
